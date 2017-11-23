@@ -29,7 +29,14 @@ function createWindow() {
   })
 }
 
-app.on('ready', createWindow)
+app.on('ready', () => {
+  createWindow()
+  if (isDev) {
+    // devtools
+    BrowserWindow.addDevToolsExtension('/Users/jamie/Library/Application Support/Google/Chrome/Default/Extensions/fmkadmapgofadopljbjfkapdkoienihi/2.5.2_0')
+    BrowserWindow.addDevToolsExtension('/Users/jamie/Library/Application Support/Google/Chrome/Default/Extensions/lmhkpmbekcpmknklioeibfkpmmfibljd/2.15.1_0')
+  }
+})
 
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
