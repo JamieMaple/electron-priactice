@@ -1,6 +1,10 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin')
+const webpack = require('webpack')
 const NyanProgressPlugin = require('nyan-progress-webpack-plugin')
+const HappPack = require('happypack')
+const ExtractPlugin = require('extract-text-webpack-plugin')
 const path = require('path')
+
+const isDev = process.env.NODE_ENV === 'development'
 
 function resolve(dir) {
   return path.resolve(__dirname, '..', dir)
@@ -9,9 +13,8 @@ function resolve(dir) {
 module.exports = {
   output: {
     path: resolve('app/build'),
-    filename: '[name].[hash:5].js'
   },
-  devtool: 'inline-source-map',
+  devtool: 'cheap-module-source-map',
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx','.json']
   },
@@ -25,9 +28,35 @@ module.exports = {
         return 'waiting...'
       }
     }),
-    new HtmlWebpackPlugin({
-      template: 'public/index.html',
-      inject: true
+    new ExtractPlugin('main.css'),
+    new HappPack({
+      id: 'jsx',
+      loaders: [
+        {
+          loader: 'babel-loader',
+          options: {
+            cacheDirectory: true
+          }
+        },
+        'eslint-loader'
+      ]
+    }),
+    new HappPack({
+      id: 'styles',
+      loaders: [
+        {
+          loader: 'css-loader',
+          options: {
+            importLoaders: 1,
+            module: true,
+            minimize: isDev ? false : true,
+            localIdentName: isDev
+            ? '[name]__[local]__[hash:base64:5]'
+            : '[hash:base64]',
+          }
+        },
+        'postcss-loader'
+      ]
     })
   ],
   module: {
@@ -35,33 +64,42 @@ module.exports = {
       {
         enforce: 'pre',
         test: /\.tsx?$/,
+        exclude: /node_modules/,
         use: {
           loader: 'tslint-loader',
-          options: {
-            typeCheck: true,
-            emitErrors: true
-          }
         }
       },
       {
         test: /\.tsx?$/,
-        use: 'awesome-typescript-loader'
-      },
-      {
-        enforce: 'pre',
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
-        use: 'eslint-loader'
-      },
-      {
-        test: /\.jsx?$/,
         exclude: /node_modules/,
         use: {
-          loader: 'babel-loader',
+          loader: 'awesome-typescript-loader',
           options: {
-            cacheDirectory: true
+            useCache: true,
+            usePrecompiledFiles: true
           }
         }
+      },
+      {
+        test: /\.jsx?$/,
+        exclude: /node_modules/,
+        use: 'happypack/loader?id=jsx'
+        // use: [
+        //   {
+        //     loader: 'babel-loader',
+        //     options: {
+        //       cacheDirectory: true
+        //     }
+        //   },
+        //   'eslint-loader'
+        // ]
+      },
+      {
+        test: /\.(css|scss)$/,
+        use: ExtractPlugin.extract({
+          fallback: 'style-loader',
+          use: 'happypack/loader?id=styles'
+        })
       },
       {
         test: /\.(jp?eg|png|gif|svg|ico)$/,

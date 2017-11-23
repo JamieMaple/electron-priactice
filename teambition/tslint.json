@@ -5,6 +5,8 @@
     "no-var-requires": false,
     "quotemark": false,
     "semicolon": false,
-    "no-console": false
+    "no-console": false,
+    "max-classes-per-file": false,
+    "interface-name": false
   }
 }

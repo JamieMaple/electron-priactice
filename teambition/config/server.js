@@ -13,11 +13,16 @@ const compiler = webpack(config)
 
 app.use(DevMiddleware(compiler, {
   publicPath: config.output.publicPath,
-  quiet: true
+  stats: {
+    colors: true,
+    modules: false,
+    modulesSort: true,
+    moduleTrace: true,
+  },
 }))
 
 app.use(HotMiddleware(compiler, {
-  log: false
+  log: false,
 }))
 
 app.listen(PORT, () => {

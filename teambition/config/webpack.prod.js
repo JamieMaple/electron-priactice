@@ -1,6 +1,5 @@
 const merge = require('webpack-merge')
 const webpack = require('webpack')
-const ExtraPlugin = require('extract-text-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const WebpackBundleAnalyzer = require('webpack-bundle-analyzer').BundleAnalyzerPlugin
 const UglifyJsPlugin = require('uglifyjs-webpack-plugin')
@@ -9,7 +8,7 @@ const common = require('./webpack.config')
 module.exports = merge(common, {
   entry: {
     app: './src/index',
-    vendor: ['react', 'react-dom']
+    vendor: ['react', 'react-dom'],
   },
   output: {
     filename: 'js/[name].js',
@@ -24,7 +23,6 @@ module.exports = merge(common, {
       analyzerMode: 'static',
       reportFilename: 'report.html',
     }),
-    new ExtraPlugin('css/main.css'),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production')
@@ -33,27 +31,10 @@ module.exports = merge(common, {
     new webpack.optimize.CommonsChunkPlugin({
       name: 'vendor'
     }),
-    new UglifyJsPlugin()
+    new UglifyJsPlugin(),
+    new HtmlWebpackPlugin({
+      template: 'public/index.html',
+      inject: true
+    }),
   ],
-  module: {
-    rules: [
-      {
-        test: /\.(css|scss)$/,
-        use: ExtraPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: {
-                importLoaders: 1,
-                module: true,
-                minimize: true
-              }
-            },
-            'postcss-loader'
-          ]
-        })
-      },
-    ]
-  }
 })

@@ -1,35 +1,26 @@
-# webpack-scaffold -- electron with express-server
+# practice
 
-scaffold for maple / dev
+### counter
 
-### !!update
+### to-do-list
 
-for react-fiber and more support so remove react-lite
+### async
 
-### ~~`react` or `react-dom` for `react-lite`~~
 
-~~vendor size much smaller: from **115kb** to **30kb**~~
+### problems
 
-### Done
+1. webpack 加载 ts 过慢 -- 让 ts 处理 缓存
 
-- [x] `babel` compile `js` and `jsx`
+```javascript
+        use: {
+          loader: 'awesome-typescript-loader',
+          options: {
+            useCache: true,
+            usePrecompiledFiles: true
+          }
+        }
+```
 
-- [x] `alias` for `react` and `react-dom` just use `reaxt-lite`, **if meet some bugs can just remove the alias** use real one
+需要注意的是happypack目前不支持 `awaresome-typescript-loader`
 
-- [x] `postcss` and plugins, etc
-
-- [x] `css modules` for add module to `css-loader`
-
-- [x] `webpack-bundle-analyzer` for analyzing modules
-
-- [x] `esLint` for `webpack`, use `recommended`
-
----
-
-### Bugs
-
-1. use HMR with react-lite will get `TypeError: Cannot read property 'tag' of undefined`
-
-1. it is no es6 support for `webpack` uglifyjs, so install `uglifyjs-webpack-plugin` install
-
-### MIT
+1. 利用到了 `happypack` 处理 js 和 css，速度还可以
