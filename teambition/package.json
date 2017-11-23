@@ -9,7 +9,7 @@
     "build": "cross-env process.env.NODE_ENV=production ./node_modules/.bin/webpack --hide-modules --config config/webpack.prod",
     "start:dev": "npm run dev",
     "start:electron": "npm run electron",
-    "start": "cross-env process.env.NODE_ENV=development ./node_modules/.bin/npm-run-all -l --parallel electron dev",
+    "start": "cross-env process.env.NODE_ENV=development ./node_modules/.bin/npm-run-all -p dev electron",
     "dist": "cross-env process.env.NODE_ENV=production node config/package"
   },
   "repository": {
