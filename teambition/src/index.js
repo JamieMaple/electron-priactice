@@ -4,11 +4,6 @@ import { AppContainer } from 'react-hot-loader'
 
 import App from './app'
 
-const foo = () => {
-  console.log('foo4')
-}
-foo()
-
 function render(Component) {
   ReactDOM.render(
     <AppContainer>

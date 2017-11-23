@@ -21,5 +21,5 @@ app.use(HotMiddleware(compiler, {
 }))
 
 app.listen(PORT, () => {
-  console.log('> Starting server...')
+  //console.log('> Starting server...')
 })

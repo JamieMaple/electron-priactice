@@ -10,7 +10,7 @@ if (isDev) {
 }
 
 function createWindow() {
-  win = new BrowserWindow({width: 800, height: 600})
+  win = new BrowserWindow({minWidth: 800, minHeight: 600})
   win.loadURL(url.format({
     pathname: pathname,
     protocol: 'file:',

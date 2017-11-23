@@ -17,11 +17,12 @@ module.exports = {
   },
   plugins: [
     new NyanProgressPlugin({
-      debounceInterval: 60,
+      debounceInterval: 180,
       nyanCatSays(progress, messages) {
         if (progress === 1) {
           return "Maple! Done!!"
         }
+        return 'waiting...'
       }
     }),
     new HtmlWebpackPlugin({
