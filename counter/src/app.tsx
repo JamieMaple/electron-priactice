@@ -7,12 +7,10 @@ import SyncCounter from './components/SyncCounter'
 import './reset.css'
 
 function App() {
-  return (
-    <div className="app">
-      <SyncCounter />
-      <AsyncCounter />
-    </div>
-  )
+  return [
+    <SyncCounter key="sync" />,
+    <AsyncCounter key="async" />,
+  ]
 }
 
 export default App
