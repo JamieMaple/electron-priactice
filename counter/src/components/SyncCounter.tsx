@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { connect } from 'react-redux'
-import { TYPE } from '../actions'
+import { syncAddOne, syncMinOne } from '../actions'
 
 interface CounterInterface {
   onAdd: any,
@@ -31,19 +31,19 @@ function CounterContainer(props: CounterInterface) {
   )
 }
 
-const mapState = (state: any) => {
+const mapState = (state: any, own: any) => {
   return {
-    num: state.syncCounter,
+    num: state.syncNum,
   }
 }
 
 const mapDispatch = (dispatch: any) => {
   return {
     onAdd: () => {
-      dispatch({type: TYPE.add_one})
+      dispatch(syncAddOne())
     },
     onMin: () => {
-      dispatch({type: TYPE.min_one})
+      dispatch(syncMinOne())
     },
   }
 }

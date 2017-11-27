@@ -1,28 +1,46 @@
 import * as React from 'react'
+import { connect } from 'react-redux'
+import { asyncAddOne, asyncMinOne, asyncAddOneBegin, asyncMinOneBegin } from '../actions'
 
 interface CounterInterface {
-  onAdd: string,
-  onMin: string,
-  num: number,
+  onAdd: any,
+  onMin: any,
+  num?: number,
 }
 
-function Counter(props: any) {
+function Counter({onAdd, onMin}: CounterInterface) {
   return (
     <div>
-      <button>+</button>
-      <button>-</button>
+      <button onClick={onAdd}>+</button>
+      <button onClick={onMin}>-</button>
     </div>
   )
 }
 
-function CounterContainer() {
+function CounterContainer({onAdd, onMin, num}: CounterInterface) {
   return (
     <div>
       <h1>AsyncCounter</h1>
-      <h2>num:</h2>
-      <Counter />
+      <h2>num:{num}</h2>
+      <Counter onAdd={onAdd} onMin={onMin} />
     </div>
   )
 }
 
-export default CounterContainer
+const mapState = (state: any) => {
+  return {
+    num: state.asyncNum,
+  }
+}
+const mapDispatch = (dispatch: any) => {
+  return {
+    onAdd: () => {
+      dispatch(asyncAddOneBegin())
+    },
+    onMin: () => {
+      dispatch(asyncMinOneBegin())
+    },
+  }
+}
+
+export default connect(mapState, mapDispatch)(CounterContainer)

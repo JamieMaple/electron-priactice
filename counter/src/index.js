@@ -1,9 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore, compose } from 'redux'
+import { createStore, compose, applyMiddleware } from 'redux'
 import { Provider } from 'react-redux'
 import reducer from './reducers'
 import { AppContainer } from 'react-hot-loader'
+import ReduxThunk from 'redux-thunk'
 import App from './app'
 
 let enhancer = null
@@ -15,7 +16,7 @@ if (process.env.NODE_ENV === 'development') {
 const store = createStore(
   reducer,
   {},
-  compose(enhancer)
+  compose(applyMiddleware(ReduxThunk), enhancer)
 )
 
 function render(Component) {
